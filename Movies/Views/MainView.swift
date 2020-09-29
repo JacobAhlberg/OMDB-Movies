@@ -11,15 +11,25 @@ import SwiftUI
 struct MainView: View {
     @ObservedObject var viewModel: MovieViewModel
 
+    @State var searchText: String = ""
+
     init(viewModel: MovieViewModel = MovieViewModel()) {
         self.viewModel = viewModel
     }
     var body: some View {
         NavigationView {
-            List(viewModel.movies, id: \.imdbId) { movie in
-                Cell(movie: movie)
-                    .padding(10)
-                    .background(Color(.systemBackground))
+            VStack {
+                SearchBar(searchText: $searchText,
+                          placeHolder: "Search...",
+                          searchButtonClicked: {
+                            viewModel.search(by: searchText)
+                          })
+                    .padding(.horizontal, 8)
+                List(viewModel.movies, id: \.imdbId) { movie in
+                    Cell(movie: movie)
+                }
+                .background(Color(.systemBackground))
+                .cornerRadius(8)
             }.navigationBarTitle("Movies")
         }
     }
