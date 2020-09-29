@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		491A4ECD252343300050A178 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A4ECC252343300050A178 /* MovieCell.swift */; };
+		491A4ED12523439D0050A178 /* MovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A4ED02523439D0050A178 /* MovieList.swift */; };
 		491B9615251CD21F0036665E /* MoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B9614251CD21F0036665E /* MoviesApp.swift */; };
 		491B9617251CD21F0036665E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491B9616251CD21F0036665E /* MainView.swift */; };
 		491B9619251CD2240036665E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 491B9618251CD2240036665E /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		491A4ECC252343300050A178 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
+		491A4ED02523439D0050A178 /* MovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieList.swift; sourceTree = "<group>"; };
 		491B9611251CD21F0036665E /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		491B9614251CD21F0036665E /* MoviesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesApp.swift; sourceTree = "<group>"; };
 		491B9616251CD21F0036665E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				49410A2F2521FE3400768E16 /* SearchBar.swift */,
+				491A4ECC252343300050A178 /* MovieCell.swift */,
+				491A4ED02523439D0050A178 /* MovieList.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -318,7 +324,9 @@
 				491B964A251CDC7C0036665E /* NetworkError.swift in Sources */,
 				491B9656251DCFD30036665E /* URLParameterEncoder.swift in Sources */,
 				491B965C251DF15B0036665E /* Router.swift in Sources */,
+				491A4ECD252343300050A178 /* MovieCell.swift in Sources */,
 				493875272522147A009DEBFF /* View+extensions.swift in Sources */,
+				491A4ED12523439D0050A178 /* MovieList.swift in Sources */,
 				491B9639251CDA220036665E /* EndPointType.swift in Sources */,
 				491B964E251CDD7B0036665E /* HTTPMethod.swift in Sources */,
 				49855FCB2521CC37006B7F91 /* Search.swift in Sources */,

@@ -38,51 +38,6 @@ struct MainView: View {
     }
 }
 
-struct MovieList: View {
-    @ObservedObject var viewModel: MovieViewModel
-
-    var onLastcell: () -> Void
-
-    var body: some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(viewModel.movies, id: \.imdbId) { movie in
-                    MovieCell(movie: movie)
-                        .onAppear {
-                            if self.viewModel.movies.last == movie {
-                                onLastcell()
-                            }
-                        }
-                    Divider().background(Color(.systemGray))
-                }
-            }
-        }.padding(.horizontal, 15)
-    }
-}
-
-struct MovieCell: View {
-    var movie: MovieSearch
-
-    var body: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(movie.title)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                Text(movie.year)
-            }
-            Spacer()
-            if let data = movie.imageData, let image = UIImage(data: data) {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 50)
-                    .clipped()
-            }
-        }
-    }
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = MovieViewModel()
