@@ -23,14 +23,6 @@ struct MovieSearch: Codable {
     let type: MediaType
     let poster: String
 
-    var imageData: Data? {
-        guard let url = URL(string: poster),
-              let data = try? Data(contentsOf: url) else {
-            return nil
-        }
-        return data
-    }
-
     enum CodingKeys: String, CodingKey {
         case title = "Title"
         case year = "Year"

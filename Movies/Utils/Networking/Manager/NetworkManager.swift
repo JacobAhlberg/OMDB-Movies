@@ -14,7 +14,7 @@ class NetworkManager {
 
     private let router = Router<MovieAPI>()
 
-    func getMovie(by id: String) -> AnyPublisher<Movie, Error> {
+    func getMovieDetails(by id: String) -> AnyPublisher<Movie, Error> {
         return router.execute(.movie(id: id), JSONDecoder())
     }
 

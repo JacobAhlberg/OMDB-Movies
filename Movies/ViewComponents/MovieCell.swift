@@ -19,7 +19,7 @@ struct MovieCell: View {
                 Text(movie.year)
             }
             Spacer()
-            if let data = movie.imageData, let image = UIImage(data: data) {
+            if let data = movie.poster.convertToData, let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()

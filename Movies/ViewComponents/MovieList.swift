@@ -16,12 +16,14 @@ struct MovieList: View {
         ScrollView {
             LazyVStack {
                 ForEach(viewModel.movies, id: \.imdbId) { movie in
-                    MovieCell(movie: movie)
-                        .onAppear {
-                            if self.viewModel.movies.last == movie {
-                                onLastcell()
+                    NavigationLink(destination: DetailsView(movie: movie)) {
+                        MovieCell(movie: movie)
+                            .onAppear {
+                                if self.viewModel.movies.last == movie {
+                                    onLastcell()
+                                }
                             }
-                        }
+                    }.foregroundColor(Color(.label))
                     Divider().background(Color(.systemGray))
                 }
             }

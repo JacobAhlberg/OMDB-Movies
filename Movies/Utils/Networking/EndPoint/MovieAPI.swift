@@ -28,7 +28,9 @@ extension MovieAPI: EndPointType {
         switch self {
         case .movie(let id): return .requestParameters(bodyParameters: nil,
                                                        urlParameters: [
-                                                        "apikey": NetworkManager.apiKey
+                                                        "apikey": NetworkManager.apiKey,
+                                                        "i": id,
+                                                        "plot": "full"
                                                        ])
         case .search(let title, let page): return .requestParameters(bodyParameters: nil,
                                                        urlParameters: [

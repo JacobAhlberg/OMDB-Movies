@@ -11,11 +11,11 @@ struct Movie: Codable {
     let title, year, rated, released: String
     let runtime, genre, director, writer: String
     let actors, plot, language, country: String
-    let awards: String
-    let poster: String
+    let awards, poster: String
     let ratings: [Rating]
     let metascore, imdbRating, imdbVotes, imdbId: String
-    let type, dvd, boxOffice, production: String
+    let type: MediaType
+    let dvd, boxOffice, production: String
     let website, response: String
 
     enum CodingKeys: String, CodingKey {
