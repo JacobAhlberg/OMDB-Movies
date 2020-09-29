@@ -18,7 +18,7 @@ class NetworkManager {
         return router.execute(.movie(id: id), JSONDecoder())
     }
 
-    func search(by title: String) -> AnyPublisher<Search, Error> {
-        return router.execute(.search(title: title), JSONDecoder())
+    func search(by title: String, page: Int) -> AnyPublisher<Search, Error> {
+        return router.execute(.search(title: title, page: page), JSONDecoder())
     }
 }

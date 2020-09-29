@@ -10,39 +10,60 @@ import Combine
 
 class MovieViewModel: ObservableObject {
     @Published var movies: [MovieSearch] = []
+    @Published var isLoading = false
 
     private let networkManager: NetworkManager
+    private var subscriptions = Set<AnyCancellable>()
 
-    private var cancellable: AnyCancellable?
+    private var nextPage = 1
+    private var lastSearch = ""
 
     init(networkManager: NetworkManager = NetworkManager.shared) {
         self.networkManager = networkManager
-        search(by: "Blade")
-    }
-
-    func fetch(search: String) {
-        cancellable = networkManager.getMovie(by: search)
-            .sink(receiveCompletion: { (completion) in
-                switch completion {
-                case .finished: print("FINISHED")
-                case .failure(let error): print("Failed with error: \(error)")
-                }
-            },
-            receiveValue: {
-                print("Values: \($0)")
-            })
     }
 
     func search(by title: String) {
-        cancellable = networkManager.search(by: title)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished: print("FINISHED")
-                case .failure(let error): print("Failed with error: \(error)")
-                }
-            },
-            receiveValue: { (search) in
-                self.movies = search.result
-            })
+        guard !title.isEmpty else { return }
+
+        guard !isLoading else { return }
+
+        // Reset
+        resetCurrentPageIfNeeded(searchTitle: title)
+
+        self.isLoading = true
+
+        networkManager.search(by: title, page: nextPage)
+            .sink(receiveCompletion: { self.onCompletion($0, searchedTitle: title) },
+                  receiveValue: { self.onRecieve($0, searchedTitle: title) })
+            .store(in: &subscriptions)
+    }
+
+    func fetchNextPage() {
+        search(by: lastSearch)
+    }
+
+    private func onCompletion(_ completion: Subscribers.Completion<Error>, searchedTitle: String) {
+        switch completion {
+        case .finished:
+            self.lastSearch = searchedTitle
+            self.nextPage += 1
+        case .failure(let error):
+            print("Failed with error: \(error)")
+        }
+        self.isLoading = false
+    }
+
+    private func onRecieve(_ search: Search, searchedTitle: String) {
+        if searchedTitle == lastSearch {
+            self.movies.append(contentsOf: search.result)
+        } else {
+            self.movies = search.result
+        }
+    }
+
+    private func resetCurrentPageIfNeeded(searchTitle: String) {
+        if lastSearch != searchTitle {
+            nextPage = 1
+        }
     }
 }

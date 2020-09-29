@@ -25,6 +25,7 @@ class Router<Endpoint: EndPointType>: NetworkRouter {
 
         return session
             .dataTaskPublisher(for: request)
+            .subscribe(on: DispatchQueue.global(qos: .background))
             .retry(route.retries)
             .mapError { NetworkError.underlyingError($0) }
             .tryMap {

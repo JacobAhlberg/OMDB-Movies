@@ -25,17 +25,42 @@ struct MainView: View {
                             viewModel.search(by: searchText)
                           })
                     .padding(.horizontal, 8)
-                List(viewModel.movies, id: \.imdbId) { movie in
-                    Cell(movie: movie)
+
+                MovieList(viewModel: viewModel, onLastcell: {
+                    self.viewModel.fetchNextPage()
+                }).edgesIgnoringSafeArea(.bottom)
+
+                if viewModel.isLoading {
+                    ProgressView()
                 }
-                .background(Color(.systemBackground))
-                .cornerRadius(8)
             }.navigationBarTitle("Movies")
         }
     }
 }
 
-struct Cell: View {
+struct MovieList: View {
+    @ObservedObject var viewModel: MovieViewModel
+
+    var onLastcell: () -> Void
+
+    var body: some View {
+        ScrollView {
+            LazyVStack {
+                ForEach(viewModel.movies, id: \.imdbId) { movie in
+                    MovieCell(movie: movie)
+                        .onAppear {
+                            if self.viewModel.movies.last == movie {
+                                onLastcell()
+                            }
+                        }
+                    Divider().background(Color(.systemGray))
+                }
+            }
+        }.padding(.horizontal, 15)
+    }
+}
+
+struct MovieCell: View {
     var movie: MovieSearch
 
     var body: some View {

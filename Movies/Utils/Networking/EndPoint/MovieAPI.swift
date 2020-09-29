@@ -8,7 +8,7 @@
 import Foundation
 
 enum MovieAPI {
-    case search(title: String)
+    case search(title: String, page: Int)
     case movie(id: String)
 }
 
@@ -30,10 +30,11 @@ extension MovieAPI: EndPointType {
                                                        urlParameters: [
                                                         "apikey": NetworkManager.apiKey
                                                        ])
-        case .search(let title): return .requestParameters(bodyParameters: nil,
+        case .search(let title, let page): return .requestParameters(bodyParameters: nil,
                                                        urlParameters: [
                                                         "apikey": NetworkManager.apiKey,
-                                                        "s": title
+                                                        "s": title,
+                                                        "page": page
                                                        ])
         }
     }

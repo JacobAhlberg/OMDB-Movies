@@ -40,8 +40,16 @@ struct MovieSearch: Codable {
     }
 }
 
+extension MovieSearch: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.imdbId == rhs.imdbId
+    }
+}
+
 enum MediaType: String, Codable {
     case movie
     case series
     case episode
+    case game
 }
+
