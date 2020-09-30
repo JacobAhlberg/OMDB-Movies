@@ -26,7 +26,7 @@ struct DetailsView: View {
                 GeometryReader { geometry in
                     ScrollView(.vertical, showsIndicators: false, content: {
                         VStack {
-                            Spacer(minLength: geometry.size.height * 0.2)
+                            Spacer(minLength: geometry.size.height * 0.3)
                             ContentView(movie: movie, image: viewModel.moviePoster)
                                 .padding(.bottom, 10)
                         }
@@ -39,12 +39,16 @@ struct DetailsView: View {
             }
         }
         .background(
-            Unwrap(viewModel.moviePoster) { image in
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                    .blur(radius: 20)
+            ZStack {
+                Unwrap(viewModel.moviePoster) { image in
+                    Image(uiImage: image)
+                        .resizable()
+                        .ignoresSafeArea()
+                        .blur(radius: 20)
+                }
+                BackgroundShape()
+                    .foregroundColor(.systemBackground)
+                    .edgesIgnoringSafeArea(.all)
             }
         )
         .navigationBarBackButtonHidden(true)
@@ -73,7 +77,7 @@ struct ContentView: View {
         ZStack {
             Rectangle()
                 .foregroundColor(Color(.systemBackground))
-                .opacity(0.8)
+//                .opacity(0.9)
                 .cornerRadius(15)
                 .padding(.horizontal, 5)
             VStack {
