@@ -15,7 +15,7 @@ struct BackgroundView: View {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
+                .ignoresSafeArea()
                 .blur(radius: 20)
         }
     }

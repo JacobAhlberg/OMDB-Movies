@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-
-
 struct DetailsView: View {
+    @Environment(\.presentationMode) var presentationMode
+
     private var viewModel: MovieDetailViewModel
 
     init(movie: MovieSearch) {
@@ -23,51 +23,198 @@ struct DetailsView: View {
     var body: some View {
         ZStack {
             Unwrap(viewModel.movie) { movie in
-                BackgroundView(image: viewModel.moviePoster)
-                VStack {
-                    Text("")
+                GeometryReader { geometry in
+                    ScrollView(.vertical, showsIndicators: false, content: {
+                        VStack {
+                            Spacer(minLength: geometry.size.height * 0.2)
+                            ContentView(movie: movie, image: viewModel.moviePoster)
+                                .padding(.bottom, 10)
+                        }
+                    })
                 }
             }
+
             if viewModel.isLoading {
                 ProgressView()
             }
-        }.navigationTitle(viewModel.movieTitle)
+        }
+        .background(
+            Unwrap(viewModel.moviePoster) { image in
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                    .blur(radius: 20)
+            }
+        )
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+                                Button(action: {
+                                    self.presentationMode.wrappedValue.dismiss()
+                                }) {
+                                    ZStack {
+                                        Circle()
+                                            .foregroundColor(Color(.systemBackground))
+                                            .opacity(0.2)
+                                        Image(systemName: "chevron.left")
+                                            .foregroundColor(.white)
+                                            .frame(width: 35, height: 35)
+                                    }
+                                }
+        )
+    }
+}
+
+struct ContentView: View {
+    let movie: Movie
+    let image: UIImage?
+
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .foregroundColor(Color(.systemBackground))
+                .opacity(0.8)
+                .cornerRadius(15)
+                .padding(.horizontal, 5)
+            VStack {
+                HeaderView(movie: movie, image: image)
+                    .padding(.horizontal, 10)
+
+                VStack(spacing: 30) {
+                    SectionView(title: Text("Plot").font(.title2), spacing: 10) {
+                        Text(movie.plot)
+                            .font(.system(size: 14))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    VStack(spacing: 15) {
+                        SectionView(title: Text("Director")) {
+                            Text(movie.director)
+                                .font(.system(size: 14))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        
+                        SectionView(title: Text("Actors")) {
+                            Text(movie.actors)
+                                .font(.system(size: 14))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+
+                        SectionView(title: Text("Released")) {
+                            Text(movie.released)
+                                .font(.system(size: 14))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+
+                        SectionView(title: Text("Language")) {
+                            Text(movie.language)
+                                .font(.system(size: 14))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+
+                        SectionView(title: Text("Awards")) {
+                            Text(movie.awards)
+                                .font(.system(size: 14))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+
+                        SectionView(title: Text("Production")) {
+                            Text(movie.production)
+                                .font(.system(size: 14))
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                }
+                .padding(.horizontal, 30)
+                .padding(.bottom, 30)
+            }
+        }
+    }
+}
+
+
+
+struct HeaderView: View {
+    let movie: Movie
+    let image: UIImage?
+
+    var body: some View {
+        HStack(alignment: .top) {
+            Unwrap(image) { image in
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .shadow(radius: 8)
+                    .frame(width: 160,
+                           height: 160)
+                    .offset(y: 160 / -4 )
+            }
+
+            VStack(alignment: .leading, spacing: 15) {
+                Text(movie.title)
+                    .font(.title2)
+                    .fontWeight(.heavy)
+                    .fixedSize(horizontal: false, vertical: true)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(movie.genre)
+                        .font(.system(size: 14,
+                                      weight: .semibold,
+                                      design: .default))
+                    Text(movie.runtime)
+                        .font(.system(size: 14,
+                                      weight: .semibold,
+                                      design: .default))
+                        .foregroundColor(Color(.systemGray))
+                }
+
+            }
+            .foregroundColor(Color(.label))
+            .padding(.top, 20)
+            Spacer()
+        }
     }
 }
 
 struct DetailsView_Preview: PreviewProvider {
     static var previews: some View {
-        let viewModel = MovieDetailViewModel()
-        viewModel.movie = Movie(title: "Lego Marvel Super Heroes",
-                                year: "2013",
-                                rated: "E10+",
-                                released: "22 Oct 2013",
-                                runtime: "N/A",
-                                genre: "Action, Adventure, Family, Sci-Fi",
-                                director: "N/A",
-                                writer: "Arthur Parsons (story), Stephen Sharples (story), Jonathan Smith (story), Mark Hoffmeier (script), Wil Evans (additional dialogue), Toby Everett (additional dialogue), Joe Moore (additional dialogue), Dewi Roberts (additional dialogue), Rob Liefeld (character created by: Deadpool), Fabian Nicieza (character created by: Deadpool), Todd McFarlane (character created by: Venom), David Michelinie (character created by: Venom), David Michelinie (character created by: Carnage), Mark Bagley (character created by: Carnage), Bill Mantlo (character created by: Rocket Raccoon), Keith Giffen (character created by: Rocket Raccoon), Jim Starlin (character created by: Drax the Destroyer), Jim Starlin (characters created by: Gamora & Thanos), Walter Simonson (characters created by: Malekith & Beta Ray Bill), Ole Kirk Christiansen (based on: LEGO Construction Toys), Godtfred Kirk Christiansen (based on: LEGO Construction Toys), Jens Nygaard Knudsen (based on: LEGO Construction Toys)",
-                                actors: "Adrian Pasdar, Andrew Kishino, Clark Gregg, Danielle Nicolet",
-                                plot: "Whilst visiting Earth to herald the arrival of Galactus the Silver Surfer is attacked by Dr Doom, causing his surfboard to be destroyed, scattering pieces all over the world. Desperate to harness this great power Dr Doom assembles a team of villains to collect these pieces. Nick Fury unites the greatest heroes the Marvel universe has to offer to put a stop to Doom's nefarious scheme.",
-                                language: "English",
-                                country: "UK",
-                                awards: "4 nominations.",
-                                poster: "https://m.media-amazon.com/images/M/MV5BOTA5ODA2NTI2M15BMl5BanBnXkFtZTgwNTcxMzU1MDE@._V1_SX300.jpg",
-                                ratings: [
-                                    .init(source: "Internet Movie Database",
-                                          value: "8.2/10")
-                                ],
-                                metascore: "N/A",
-                                imdbRating: "8.2",
-                                imdbVotes: "2,307",
-                                imdbId: "tt2620204",
-                                type: .game,
-                                dvd: "N/A",
-                                boxOffice: "N/A",
-                                production: "N/A",
-                                website: "N/A",
-                                response: "True")
-        return NavigationView {
-            DetailsView(viewModel: viewModel)
+        Group {
+            NavigationView {
+                DetailsView(viewModel: viewModel)
+            }
+            NavigationView {
+                DetailsView(viewModel: viewModel)
+            }.colorScheme(.dark)
         }
     }
 }
+
+let movie = Movie(title: "Batman: Under the Red Hood",
+                  year: "2010",
+                  rated: "PG-13",
+                  released: "27 Jul 2010",
+                  runtime: "75 min",
+                  genre: "Animation, Action, Crime, Drama, Sci-Fi, Thriller",
+                  director: "Brandon Vietti",
+                  writer: "Judd Winick, Bob Kane (Batman created by)",
+                  actors: "Bruce Greenwood, Jensen Ackles, John DiMaggio, Neil Patrick Harris",
+                  plot: "Batman faces his ultimate challenge as the mysterious Red Hood takes Gotham City by firestorm. One part vigilante, one part criminal kingpin, Red Hood begins cleaning up Gotham with the efficiency of Batman, but without following the same ethical code. Killing is an option. And when the Joker falls in the balance between the two, hard truths are revealed and old wounds are reopened.",
+                  language: "English",
+                  country: "USA",
+                  awards: "1 nominations.",
+                  poster: "https://m.media-amazon.com/images/M/MV5BNmY4ZDZjY2UtOWFiYy00MjhjLThmMjctOTQ2NjYxZGRjYmNlL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg",
+                  ratings: [
+                    .init(source: "Internet Movie Database",
+                          value: "8.1/10"),
+                    .init(source: "Rotten Tomatoes",
+                          value: "100%")
+                  ],
+                  metascore: "N/A",
+                  imdbRating: "8.1",
+                  imdbVotes: "53,552",
+                  imdbId: "tt1569923",
+                  type: .movie,
+                  dvd: "N/A",
+                  boxOffice: "N/A",
+                  production: "DC Entertainment, Warner Bros. Animation",
+                  website: "N/A",
+                  response: "True")
