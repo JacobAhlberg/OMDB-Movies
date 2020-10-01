@@ -8,16 +8,10 @@
 import SwiftUI
 
 struct DetailsView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var viewModel: MovieDetailViewModel
 
-    private var viewModel: MovieDetailViewModel
-
-    init(movie: MovieSearch) {
-        viewModel = MovieDetailViewModel(movie: movie)
-    }
-
-    init(viewModel: MovieDetailViewModel) {
-        self.viewModel = viewModel
+    static func create(with movie: MovieSearch) -> DetailsView {
+        DetailsView(viewModel: MovieDetailViewModel(movie: movie))
     }
 
     var body: some View {
@@ -38,6 +32,9 @@ struct DetailsView: View {
                 ProgressView()
             }
         }
+        .onDisappear(perform: {
+            self.viewModel.invalidate()
+        })
         .background(
             ZStack {
                 Unwrap(viewModel.moviePoster) { image in
@@ -50,21 +47,6 @@ struct DetailsView: View {
                     .foregroundColor(.systemBackground)
                     .edgesIgnoringSafeArea(.all)
             }
-        )
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading:
-                                Button(action: {
-                                    self.presentationMode.wrappedValue.dismiss()
-                                }) {
-                                    ZStack {
-                                        Circle()
-                                            .foregroundColor(Color(.systemBackground))
-                                            .opacity(0.2)
-                                        Image(systemName: "chevron.left")
-                                            .foregroundColor(.white)
-                                            .frame(width: 35, height: 35)
-                                    }
-                                }
         )
     }
 }

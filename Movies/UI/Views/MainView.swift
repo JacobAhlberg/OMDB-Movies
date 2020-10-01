@@ -34,7 +34,7 @@ struct MainView: View {
                     ProgressView()
                 }
             }.navigationBarTitle("Movies")
-        }
+        }.accentColor(Color(.label))
     }
 }
 

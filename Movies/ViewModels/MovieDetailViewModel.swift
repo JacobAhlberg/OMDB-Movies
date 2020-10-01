@@ -39,9 +39,17 @@ class MovieDetailViewModel: ObservableObject {
 
     func fetchDetails() {
         networkManager.getMovieDetails(by: searchedMovie.imdbId)
-            .sink(receiveCompletion: onCompletion,
-                  receiveValue: onReceive)
+            .sink(receiveCompletion: { [weak self] (completion) in
+                self?.onCompletion(completion)
+            }, receiveValue: { [weak self] (movie) in
+                self?.onReceive(movie)
+            })
             .store(in: &subscriptions)
+    }
+
+    func invalidate() {
+        subscriptions.forEach { $0.cancel() }
+        subscriptions.removeAll()
     }
 
     private func onCompletion(_ completion: Subscribers.Completion<Error>) {

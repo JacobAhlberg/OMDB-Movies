@@ -16,7 +16,7 @@ struct MovieList: View {
         ScrollView {
             LazyVStack {
                 ForEach(viewModel.movies, id: \.imdbId) { movie in
-                    NavigationLink(destination: DetailsView(movie: movie)) {
+                    NavigationLink(destination: NavigationLazyView(DetailsView.create(with: movie))) {
                         MovieCell(movie: movie)
                             .onAppear {
                                 if self.viewModel.movies.last == movie {
@@ -24,6 +24,7 @@ struct MovieList: View {
                                 }
                             }
                     }.foregroundColor(Color(.label))
+                    
                     Divider().background(Color(.systemGray))
                 }
             }

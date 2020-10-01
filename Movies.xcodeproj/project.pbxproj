@@ -41,6 +41,7 @@
 		49855FCE2521F60A006B7F91 /* InvalidResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49855FCD2521F60A006B7F91 /* InvalidResponse.swift */; };
 		49E9FE79252490DA009C8DEA /* ColorAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49E9FE78252490DA009C8DEA /* ColorAssets.xcassets */; };
 		49E9FE7C25249112009C8DEA /* Color+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E9FE7B25249112009C8DEA /* Color+extensions.swift */; };
+		49E9FE7F2524B24C009C8DEA /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49E9FE7E2524B24C009C8DEA /* NavigationLazyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		49855FCD2521F60A006B7F91 /* InvalidResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidResponse.swift; sourceTree = "<group>"; };
 		49E9FE78252490DA009C8DEA /* ColorAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ColorAssets.xcassets; sourceTree = "<group>"; };
 		49E9FE7B25249112009C8DEA /* Color+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+extensions.swift"; sourceTree = "<group>"; };
+		49E9FE7E2524B24C009C8DEA /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +263,7 @@
 				491A4ED02523439D0050A178 /* MovieList.swift */,
 				492D561A252369EE003A8A4A /* Unwrap.swift */,
 				492D562025247B87003A8A4A /* SectionView.swift */,
+				49E9FE7E2524B24C009C8DEA /* NavigationLazyView.swift */,
 			);
 			path = ViewComponents;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				492D562125247B87003A8A4A /* SectionView.swift in Sources */,
 				491B9626251CD2550036665E /* MovieViewModel.swift in Sources */,
 				49855FC4251E3282006B7F91 /* MovieAPI.swift in Sources */,
+				49E9FE7F2524B24C009C8DEA /* NavigationLazyView.swift in Sources */,
 				492D56182523629D003A8A4A /* String+extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
