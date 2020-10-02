@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class MovieViewModel: ObservableObject {
+class SearchViewModel: ObservableObject {
     @Published var movies: [MovieSearch] = []
     @Published var isLoading = false
     @Published var error: NetworkError?

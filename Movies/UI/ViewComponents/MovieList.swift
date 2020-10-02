@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MovieList: View {
-    @ObservedObject var viewModel: MovieViewModel
+    @ObservedObject var viewModel: SearchViewModel
 
     var onLastcell: () -> Void
 
@@ -34,7 +34,7 @@ struct MovieList: View {
 
 struct MovieList_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = MovieViewModel()
+        let viewModel = SearchViewModel()
         viewModel.movies = [
             MovieSearch(title: "Blade", year: "1997", imdbId: "gsafhsanjk", type: .movie, poster: "https://m.media-amazon.com/images/M/MV5BOWVjZTIzNDYtNTBlNC00NTJjLTkzOTEtOTE0MjlhYzI2YTcyXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"),
             MovieSearch(title: "Iron man", year: "2010", imdbId: "asdgsafhsanjk", type: .movie, poster: "")

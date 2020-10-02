@@ -69,3 +69,11 @@ class MovieDetailViewModel: ObservableObject {
         self.error = nil
     }
 }
+
+extension MovieDetailViewModel {
+    static var viewModel: MovieDetailViewModel = {
+        let viewModel = MovieDetailViewModel()
+        viewModel.movie = Movie.movie
+        return viewModel
+    }()
+}
