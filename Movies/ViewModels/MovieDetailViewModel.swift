@@ -11,7 +11,7 @@ import Combine
 class MovieDetailViewModel: ObservableObject {
     @Published var movie: Movie?
     @Published var isLoading = false
-    @Published var error: Error?
+    @Published var error: NetworkError?
 
     private var subscriptions = Set<AnyCancellable>()
 
@@ -55,11 +55,17 @@ class MovieDetailViewModel: ObservableObject {
     private func onCompletion(_ completion: Subscribers.Completion<Error>) {
         switch completion {
         case .finished: print("Finished")
-        case .failure(let error): self.error = error
+        case .failure(let error):
+            if let error = error as? NetworkError {
+                self.error = error
+            } else {
+                self.error = NetworkError.underlyingError(error)
+            }
         }
     }
 
     private func onReceive(_ movie: Movie) {
         self.movie = movie
+        self.error = nil
     }
 }

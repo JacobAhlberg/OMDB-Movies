@@ -10,8 +10,8 @@ import SwiftUI
 struct BackgroundShape: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        path.move(to: .init(x: rect.minX, y: rect.maxY / 2.5))
-        path.addLine(to: .init(x: rect.maxX, y: (rect.maxY / 2.5) * 0.8))
+        path.move(to: .init(x: rect.minX, y: rect.maxY / 3))
+        path.addLine(to: .init(x: rect.maxX, y: (rect.maxY / 3) * 0.8))
         path.addLine(to: .init(x: rect.maxX, y: rect.maxY))
         path.addLine(to: .init(x: rect.minX, y: rect.maxY))
         return path

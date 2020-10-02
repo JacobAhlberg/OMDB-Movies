@@ -20,7 +20,7 @@ struct DetailsView: View {
                 GeometryReader { geometry in
                     ScrollView(.vertical, showsIndicators: false, content: {
                         VStack {
-                            Spacer(minLength: geometry.size.height * 0.3)
+                            Spacer(minLength: geometry.size.height * 0.2)
                             ContentView(movie: movie, image: viewModel.moviePoster)
                                 .padding(.bottom, 10)
                         }
@@ -32,6 +32,11 @@ struct DetailsView: View {
                 ProgressView()
             }
         }
+        .alert(item: self.$viewModel.error, content: { error in
+            Alert(title: Text("Error has occured"),
+                  message: Text(error.localizedDescription),
+                  dismissButton: .cancel())
+        })
         .onDisappear(perform: {
             self.viewModel.invalidate()
         })
@@ -141,22 +146,48 @@ struct HeaderView: View {
                     .font(.title2)
                     .fontWeight(.heavy)
                     .fixedSize(horizontal: false, vertical: true)
-                VStack(alignment: .leading, spacing: 4) {
+
+                VStack(alignment: .leading, spacing: 8) {
                     Text(movie.genre)
                         .font(.system(size: 14,
                                       weight: .semibold,
                                       design: .default))
-                    Text(movie.runtime)
-                        .font(.system(size: 14,
-                                      weight: .semibold,
-                                      design: .default))
-                        .foregroundColor(Color(.systemGray))
+                    HStack(alignment: .bottom, spacing: 10) {
+                        Text(movie.runtime)
+                            .font(.system(size: 14,
+                                          weight: .semibold,
+                                          design: .default))
+                            .foregroundColor(Color(.systemGray))
+                        Rectangle()
+                            .frame(width: 1, height: 15)
+
+
+                        RatingView(rating: movie.imdbRating)
+                    }
                 }
 
             }
             .foregroundColor(Color(.label))
             .padding(.top, 20)
             Spacer()
+        }
+    }
+}
+
+struct RatingView: View {
+    let rating: String
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 4) {
+            Image(systemName: "star.fill")
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(Color(.systemYellow))
+                .frame(height: 14)
+            Text("\(rating)/10")
+                .font(.system(size: 14,
+                              weight: .medium,
+                              design: .default))
         }
     }
 }

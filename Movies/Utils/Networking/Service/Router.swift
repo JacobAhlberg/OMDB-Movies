@@ -38,7 +38,7 @@ class Router<Endpoint: EndPointType>: NetworkRouter {
                 }
 
                 guard 200..<400 ~= response.statusCode else {
-                    throw NetworkError.httpError(response.statusCode)
+                    throw NetworkError.httpError(responseCode: response.statusCode)
                 }
 
                 if let _ = try? decoder.decode(InvalidResponse.self, from: $0.data) {

@@ -29,12 +29,17 @@ struct MainView: View {
                 MovieList(viewModel: viewModel, onLastcell: {
                     self.viewModel.fetchNextPage()
                 }).edgesIgnoringSafeArea(.bottom)
-
                 if viewModel.isLoading {
                     ProgressView()
                 }
             }.navigationBarTitle("Movies")
-        }.accentColor(Color(.label))
+        }
+        .accentColor(Color(.label))
+        .alert(item: self.$viewModel.error) { error in
+            Alert(title: Text("Error"),
+                  message: Text(error.localizedDescription),
+                  dismissButton: .cancel())
+        }
     }
 }
 

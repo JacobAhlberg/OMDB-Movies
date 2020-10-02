@@ -11,6 +11,7 @@ import Combine
 class MovieViewModel: ObservableObject {
     @Published var movies: [MovieSearch] = []
     @Published var isLoading = false
+    @Published var error: NetworkError?
 
     private let networkManager: NetworkManager
     private var subscriptions = Set<AnyCancellable>()
@@ -47,7 +48,13 @@ class MovieViewModel: ObservableObject {
         case .finished:
             self.lastSearch = searchedTitle
             self.nextPage += 1
+            self.error = nil
         case .failure(let error):
+            if let error = error as? NetworkError {
+                self.error = error
+            } else {
+                self.error = .underlyingError(error)
+            }
             print("Failed with error: \(error)")
         }
         self.isLoading = false
